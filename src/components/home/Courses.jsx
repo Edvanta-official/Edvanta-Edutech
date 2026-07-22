@@ -137,9 +137,9 @@ const Courses = () => {
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Course Fee</span>
                     <span style={{ fontSize: '1.3rem', fontWeight: '800', color: 'var(--text-primary)' }}>{course.price}</span>
                   </div>
-                  <Link to="/courses">
+                  <a href="https://pages.razorpay.com/pl_SdJE07JOB58TeR/view" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>Enroll Now</Button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </Card>
