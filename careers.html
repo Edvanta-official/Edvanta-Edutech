@@ -692,9 +692,17 @@
 
     
 
-    <!-- Interactive script bindings -->
+    <!-- EmailJS SDK and Interactive script bindings -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="module" src="./main.js"></script>
-    <script>
+    <script type="text/javascript">
+      (function() {
+        // Initialize EmailJS Browser SDK
+        if (window.emailjs) {
+          emailjs.init("edvanta_public_key");
+        }
+      })();
+
       const modal = document.getElementById('applyModal');
       const formJobName = document.getElementById('formJobName');
       const modalJobTitle = document.getElementById('modalJobTitle');
@@ -702,7 +710,8 @@
 
       function openApplyModal(jobName) {
         formJobName.value = jobName;
-        document.getElementById('emailSubject').value = `New Job Application: ${jobName}`;
+        const subjectElem = document.getElementById('emailSubject');
+        if (subjectElem) subjectElem.value = `New Job Application: ${jobName}`;
         modalJobTitle.textContent = `Apply for: ${jobName}`;
         modal.classList.add('open');
       }
@@ -715,44 +724,79 @@
       function submitJobForm(event) {
         event.preventDefault();
         
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending to hr@edvanta-edu.com...";
+        }
+
         const name = document.getElementById('appName').value.trim();
         const email = document.getElementById('appEmail').value.trim();
         const resume = document.getElementById('appResume').value.trim();
         const pitch = document.getElementById('appPitch').value.trim();
         const job = formJobName.value || 'Job Position';
 
-        // 1. Submit background email payload via FormSubmit API targeting hr@edvanta-edu.com
-        fetch('https://formsubmit.co/ajax/hr@edvanta-edu.com', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            _subject: `New Job Application: ${job} - ${name}`,
-            _replyto: email,
-            "Applicant Name": name,
-            "Applicant Email": email,
-            "Job Position": job,
-            "Resume Link": resume,
-            "Why Edvanta (Pitch)": pitch
-          })
-        }).catch(err => console.log(err));
+        const templateParams = {
+          to_email: 'hr@edvanta-edu.com',
+          from_name: name,
+          from_email: email,
+          job_position: job,
+          resume_link: resume,
+          pitch: pitch,
+          message: `New Job Application Received:\n\nPosition: ${job}\nApplicant Name: ${name}\nEmail Address: ${email}\nResume Link: ${resume}\n\nPitch:\n${pitch}`
+        };
 
-        // 2. Open mailto link targeting hr@edvanta-edu.com directly
-        const subject = encodeURIComponent(`Job Application for ${job} - ${name}`);
-        const body = encodeURIComponent(
-          `Full Name: ${name}\n` +
-          `Email Address: ${email}\n` +
-          `Position Applied: ${job}\n` +
-          `Resume Link: ${resume}\n\n` +
-          `Why Edvanta (Pitch):\n${pitch}`
-        );
-        
-        window.location.href = `mailto:hr@edvanta-edu.com?subject=${subject}&body=${body}`;
-
-        alert(`Thank you, ${name}! Your application for the "${job}" position has been submitted and forwarded directly to hr@edvanta-edu.com.`);
-        closeApplyModal();
+        // Send email via EmailJS API
+        if (window.emailjs) {
+          emailjs.send('service_edvanta', 'template_careers', templateParams)
+            .then(function(response) {
+              alert(`Thank you, ${name}! Your application for "${job}" has been sent successfully to hr@edvanta-edu.com via EmailJS.`);
+              closeApplyModal();
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Application to hr@edvanta-edu.com";
+              }
+            }, function(error) {
+              // Fallback to FormSubmit AJAX endpoint if custom EmailJS keys not configured
+              fetch('https://formsubmit.co/ajax/hr@edvanta-edu.com', {
+                method: 'POST',
+                headers: { 
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                  _subject: `New Job Application: ${job} - ${name}`,
+                  _replyto: email,
+                  ...templateParams
+                })
+              }).finally(() => {
+                alert(`Thank you, ${name}! Your application for "${job}" has been sent to hr@edvanta-edu.com.`);
+                closeApplyModal();
+                if (submitBtn) {
+                  submitBtn.disabled = false;
+                  submitBtn.textContent = "Submit Application to hr@edvanta-edu.com";
+                }
+              });
+            });
+        } else {
+          // Direct FormSubmit fallback
+          fetch('https://formsubmit.co/ajax/hr@edvanta-edu.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              _subject: `New Job Application: ${job} - ${name}`,
+              _replyto: email,
+              ...templateParams
+            })
+          }).finally(() => {
+            alert(`Thank you, ${name}! Your application for "${job}" has been sent to hr@edvanta-edu.com.`);
+            closeApplyModal();
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Submit Application to hr@edvanta-edu.com";
+            }
+          });
+        }
       }
     </script>
   
