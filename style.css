@@ -4741,18 +4741,26 @@ div[style*="background:#ffffff"] p {
   background: linear-gradient(135deg, #090d16 0%, #0f172a 50%, #05080e 100%) !important;
 }
 
-/* Fix White Transparent Shade Bars in Dark Mode */
-[data-theme="dark"] .about-hero-partner-bar,
-[data-theme="dark"] .partner-marquee-section {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+/* Google Expert Pill Dark Mode & Light Mode High Visibility Fix */
+.google-expert-pill,
+[data-theme="dark"] .google-expert-pill {
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
 }
 
-[data-theme="dark"] .about-hero-partner-bar span,
-[data-theme="dark"] .partner-marquee-section span {
-  color: #f1f5f9 !important;
-  -webkit-text-fill-color: #f1f5f9 !important;
+.google-expert-pill span,
+[data-theme="dark"] .google-expert-pill span {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] .google-expert-pill span[style*="background"] {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
 

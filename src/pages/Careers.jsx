@@ -7,25 +7,32 @@ import { Briefcase, MapPin, Clock, ArrowRight } from 'lucide-react';
 const CareersPage = () => {
   const jobs = [
     {
-      title: 'Senior Frontend Developer (React / TS)',
-      dept: 'Engineering',
-      location: 'Noida (Hybrid)',
+      title: 'Business Development Associate',
+      dept: 'Sales & Growth',
+      location: 'Hyderabad / Remote',
       type: 'Full-time',
-      desc: 'Lead the architectural roadmap of our student-workspace portals. Deep React, state management, and CSS-in-JS skill required.'
+      desc: 'Drive corporate partnerships, institutional relationships, and lead conversion strategy for Edvanta programs.'
     },
     {
-      title: 'Technical Mentor - Machine Learning & AI',
-      dept: 'Academics',
-      location: 'Remote (India)',
-      type: 'Part-time / Contract',
-      desc: 'Deliver weekly live webinars, perform mock code assessments, and review student milestone submissions in the AI/ML track.'
+      title: 'Data Extraction / Lead Generation',
+      dept: 'Data & Operations',
+      location: 'Hyderabad / Remote',
+      type: 'Full-time',
+      desc: 'Extract, verify, and organize high-quality student and hiring partner database pipelines using automated data tools.'
     },
     {
-      title: 'Placement & Corporate Relations Manager',
-      dept: 'Hiring Network',
-      location: 'Noida / Bangalore',
+      title: 'Digital Marketing',
+      dept: 'Marketing & Media',
+      location: 'Hyderabad / Remote',
       type: 'Full-time',
-      desc: 'Partner with enterprise HR teams (Adobe, Microsoft, Autodesk, etc.) to onboard them onto our recruitment pipeline dashboard.'
+      desc: 'Manage performance marketing, social media campaigns, SEO/SEM channels, and brand reach across educational communities.'
+    },
+    {
+      title: 'Marketing Specialist',
+      dept: 'Marketing & Strategy',
+      location: 'Hyderabad / Remote',
+      type: 'Full-time',
+      desc: 'Formulate go-to-market campaigns, content strategies, and student engagement initiatives to elevate Edvanta brand awareness.'
     }
   ];
 
