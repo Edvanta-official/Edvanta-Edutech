@@ -9,8 +9,6 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
   const categoryTimerRef = React.useRef(null);
 
